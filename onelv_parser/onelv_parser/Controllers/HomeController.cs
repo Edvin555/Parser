@@ -2,6 +2,7 @@
 using onelv_parser.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -22,10 +23,23 @@ namespace onelv_parser.Controllers
             html1.LoadHtml(new WebClient().DownloadString(url));
             var headRoot = html1.DocumentNode;
 
-            var p = headRoot.Descendants("div").Where(n => n.GetAttributeValue("class", "").Equals("w2")).First()
-                   .Descendants("li").Where(n => n.GetAttributeValue("class", "").Equals("visible-on-small-resolution")).Last();
-            int pageCount = int.Parse(p.InnerText);
+            string pattern = @"(\d+)";
 
+            // Instantiate the regular expression object.
+            Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
+            var t = headRoot.Descendants("div").Where(n => n.GetAttributeValue("class", "").Equals("paging-text")).First()
+                   .Descendants("strong").First().NextSibling;
+            Match m = r.Match(t.InnerText);
+            int total = int.Parse(m.Value);
+
+            var displayCount = headRoot.Descendants("div").Where(n => n.GetAttributeValue("class", "").Equals("paging-text")).First()
+                   .Descendants("strong").First().InnerText.ToString();
+            displayCount = displayCount.Substring(displayCount.Length - 2, 2);
+
+            int dCount = int.Parse(displayCount);
+            
+            int pageCount = (int)Math.Ceiling((double)(total / dCount));
+            if((pageCount * dCount < total)) pageCount++;
             var list = new List<MobilePhone>();
 
             for (int i = 1; i < (pageCount + 1); i++)
@@ -50,7 +64,11 @@ namespace onelv_parser.Controllers
                     var price = parent.Descendants("div").Where(n => n.GetAttributeValue("class", "").Equals("p-info")).First().Descendants("span").First();
 
                     href = "http://www.1a.lv" + href;
-                    phone.Price = decimal.Parse(price.InnerText.ToString().Replace(".", ",")) / 100;
+
+                   CultureInfo lvCulture = new CultureInfo("lv-LV");
+                   NumberFormatInfo dbNumberFormat = lvCulture.NumberFormat;
+
+                    phone.Price = decimal.Parse(price.InnerText.ToString().Replace(".", ","), dbNumberFormat) ;
                     phone.Name = brand.InnerText.ToString();
                     phone.Url = href.ToString();
                     phone.Store = "www.1a.lv";
@@ -110,7 +128,10 @@ namespace onelv_parser.Controllers
                         var brand = parent.Descendants("div").Where(n => n.GetAttributeValue("class", "").Equals("product-title-container")).First().Descendants("a").First();
                         var href = brand.GetAttributeValue("href", "");
                         href = "http://www.220.lv" + href;
-                        phone.Price = decimal.Parse(m.Value.ToString().Replace(".", ",")) / 100;
+
+                        CultureInfo lvCulture = new CultureInfo("lv-LV");
+                        NumberFormatInfo dbNumberFormat = lvCulture.NumberFormat;
+                        phone.Price = decimal.Parse(m.Value.ToString().Replace(".", ","), dbNumberFormat) ;
                         phone.Name = brand.InnerText.ToString();
                         phone.Url = href.ToString();
                         phone.Store = "www.220.lv";

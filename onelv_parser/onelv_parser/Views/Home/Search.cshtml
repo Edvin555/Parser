@@ -33,7 +33,7 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-           @String.Format("{0:c2}", @Html.DisplayFor(modelItem => item.Price))
+           @String.Format("{0:c2} €", @Html.DisplayFor(modelItem => item.Price))
         </td>
         <td>
           <a href="@Html.DisplayFor(modelItem => item.Url)">visit</a>
