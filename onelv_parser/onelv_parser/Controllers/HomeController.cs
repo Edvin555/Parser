@@ -62,7 +62,7 @@ namespace onelv_parser.Controllers
                     var price = parent.Descendants("div").Where(n => n.GetAttributeValue("class", "").Equals("p-info")).First().Descendants("span").First();
 
                     href = "http://www.1a.lv" + href;
-                    phone.Price = decimal.Parse(price.InnerText.ToString().Replace("." , ","));
+                    phone.Price = decimal.Parse(price.InnerText.ToString().Replace("." , ","))/100;
                     phone.Name = brand.InnerText.ToString();
                     phone.Url = href.ToString();
                     phone.Store = "www.1a.lv";
