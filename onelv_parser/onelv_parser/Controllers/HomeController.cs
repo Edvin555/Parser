@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
@@ -20,7 +21,9 @@ namespace onelv_parser.Controllers
         {
             string url = "http://www.1a.lv/telefoni_plansetdatori/mobilie_telefoni/mobile_phones";
             var html1 = new HtmlDocument();
-            html1.LoadHtml(new WebClient().DownloadString(url));
+            var web = new WebClient();
+            
+            html1.LoadHtml(web.DownloadString(url));
             var headRoot = html1.DocumentNode;
 
             string pattern = @"(\d+)";
@@ -48,11 +51,13 @@ namespace onelv_parser.Controllers
                 url = url + "/" + i.ToString();
 
                 var html = new HtmlDocument();
-                html.LoadHtml(new WebClient().DownloadString(url));
+                var wc = new WebClient();
+              
+                html.LoadHtml(wc.DownloadString(url));
                 var root = html.DocumentNode;
 
                 var parents = root.Descendants("div").Where(n => n.GetAttributeValue("class", "").Equals("area")).ToArray();
-                //.ToList().Descendants("a").First();
+                
 
 
                 foreach (var parent in parents)
@@ -69,7 +74,7 @@ namespace onelv_parser.Controllers
                    NumberFormatInfo dbNumberFormat = lvCulture.NumberFormat;
 
                     phone.Price = decimal.Parse(price.InnerText.ToString().Replace(".", ","), dbNumberFormat) ;
-                    phone.Name = brand.InnerText.ToString();
+                    phone.Name = HtmlEntity.DeEntitize(brand.InnerText.ToString());
                     phone.Url = href.ToString();
                     phone.Store = "www.1a.lv";
                     list.Add(phone);
@@ -98,11 +103,12 @@ namespace onelv_parser.Controllers
                 url = url + "&page=" + i.ToString();
 
                 var html = new HtmlDocument();
+                
                 html.LoadHtml(new WebClient().DownloadString(url));
                 var root = html.DocumentNode;
 
                 var parents = root.Descendants("div").Where(n => n.GetAttributeValue("class", "").Equals("fake-container")).ToArray();
-                //.ToList().Descendants("a").First();
+                
                 string pattern = @"(\d+),(\d{2})";
 
                 // Instantiate the regular expression object.
@@ -132,7 +138,7 @@ namespace onelv_parser.Controllers
                         CultureInfo lvCulture = new CultureInfo("lv-LV");
                         NumberFormatInfo dbNumberFormat = lvCulture.NumberFormat;
                         phone.Price = decimal.Parse(m.Value.ToString().Replace(".", ","), dbNumberFormat) ;
-                        phone.Name = brand.InnerText.ToString();
+                        phone.Name = HtmlEntity.DeEntitize(brand.InnerText.ToString());
                         phone.Url = href.ToString();
                         phone.Store = "www.220.lv";
                         list.Add(phone);
