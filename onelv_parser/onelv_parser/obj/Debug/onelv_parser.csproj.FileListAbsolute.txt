@@ -36,7 +36,6 @@ C:\Users\User\Desktop\Parser\onelv_parser\onelv_parser\bin\System.Web.Webpages.D
 C:\Users\User\Desktop\Parser\onelv_parser\onelv_parser\bin\System.Web.Webpages.Razor.xml
 C:\Users\User\Desktop\Parser\onelv_parser\onelv_parser\bin\System.Web.Helpers.xml
 C:\Users\User\Desktop\Parser\onelv_parser\onelv_parser\bin\System.Web.Mvc.xml
-C:\Users\User\Desktop\Parser\onelv_parser\onelv_parser\obj\Debug\onelv_parser.csprojResolveAssemblyReference.cache
 C:\Users\User\Desktop\Parser\onelv_parser\onelv_parser\obj\Debug\onelv_parser.dll
 C:\Users\User\Desktop\Parser\onelv_parser\onelv_parser\obj\Debug\onelv_parser.pdb
 C:\Users\User\Desktop\Parser\onelv_parser\onelv_parser\bin\Microsoft.Web.Infrastructure.dll

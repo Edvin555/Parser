@@ -9,14 +9,20 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/jquery-2.2.0.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
 </head>
 <body>
     <div> 
-        <p>Search for mobile phones in www.1a.lv</p>
+        <p></p>
         @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+        
+        
         {
             <div class="form-group">
-
+                <label class="control-label col-md-2"><strong>Search for mobile phones in www.1a.lv.</strong></label>
                 <div class="col-md-10">
                     <p>@Html.TextBox("searchString")</p>
 
@@ -24,8 +30,8 @@
             </div>
 
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <p><input type="submit" value="Search" class="btn btn-default" /></p>
+                <div class="col-md-10">
+                    <p><input type="submit" value="Search" class="btn btn-success"  /></p>
                 </div>
             </div>
 
