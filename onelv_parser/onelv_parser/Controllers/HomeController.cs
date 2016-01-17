@@ -20,10 +20,16 @@ namespace onelv_parser.Controllers
         public List<MobilePhone> Parse1Alv()
         {
             string url = "http://www.1a.lv/telefoni_plansetdatori/mobilie_telefoni/mobile_phones";
-            var html1 = new HtmlDocument();
-            var web = new WebClient();
+           // var html1 = new HtmlDocument();
+           // var web = new WebClient();
             
-            html1.LoadHtml(web.DownloadString(url));
+           // html1.LoadHtml(web.DownloadString(url));
+            var web = new HtmlWeb
+            {
+                AutoDetectEncoding = false,
+                OverrideEncoding = Encoding.UTF8,
+            };
+            var html1 = web.Load(url);
             var headRoot = html1.DocumentNode;
 
             string pattern = @"(\d+)";
@@ -50,10 +56,12 @@ namespace onelv_parser.Controllers
                 url = "http://www.1a.lv/telefoni_plansetdatori/mobilie_telefoni/mobile_phones";
                 url = url + "/" + i.ToString();
 
-                var html = new HtmlDocument();
-                var wc = new WebClient();
-              
-                html.LoadHtml(wc.DownloadString(url));
+                var web1 = new HtmlWeb
+                {
+                    AutoDetectEncoding = false,
+                    OverrideEncoding = Encoding.UTF8,
+                };
+                var html = web1.Load(url);
                 var root = html.DocumentNode;
 
                 var parents = root.Descendants("div").Where(n => n.GetAttributeValue("class", "").Equals("area")).ToArray();
@@ -102,9 +110,13 @@ namespace onelv_parser.Controllers
                 var url = "http://220.lv/lv/mobilie_telefoni/mobilie_telefoni?w=72";
                 url = url + "&page=" + i.ToString();
 
-                var html = new HtmlDocument();
                 
-                html.LoadHtml(new WebClient().DownloadString(url));
+                var web = new HtmlWeb
+                {
+                    AutoDetectEncoding = false,
+                    OverrideEncoding = Encoding.UTF8,
+                };
+                var html = web.Load(url);
                 var root = html.DocumentNode;
 
                 var parents = root.Descendants("div").Where(n => n.GetAttributeValue("class", "").Equals("fake-container")).ToArray();
@@ -137,6 +149,7 @@ namespace onelv_parser.Controllers
 
                         CultureInfo lvCulture = new CultureInfo("lv-LV");
                         NumberFormatInfo dbNumberFormat = lvCulture.NumberFormat;
+                       
                         phone.Price = decimal.Parse(m.Value.ToString().Replace(".", ","), dbNumberFormat) ;
                         phone.Name = HtmlEntity.DeEntitize(brand.InnerText.ToString());
                         phone.Url = href.ToString();
@@ -179,9 +192,9 @@ namespace onelv_parser.Controllers
 
             var list = new List<MobilePhone>();
             list = Parse220lv();
-            var list2 = Parse1Alv();
+           // var list2 = Parse1Alv();
 
-            list.AddRange(list2);
+           // list.AddRange(list2);
             list = list.OrderBy(i => i.Price).ToList();
             if (!string.IsNullOrEmpty(searchString))
             {
