@@ -192,9 +192,9 @@ namespace onelv_parser.Controllers
 
             var list = new List<MobilePhone>();
             list = Parse220lv();
-           // var list2 = Parse1Alv();
+            var list2 = Parse1Alv();
 
-           // list.AddRange(list2);
+            list.AddRange(list2);
             list = list.OrderBy(i => i.Price).ToList();
             if (!string.IsNullOrEmpty(searchString))
             {
