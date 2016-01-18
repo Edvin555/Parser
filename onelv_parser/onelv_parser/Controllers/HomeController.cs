@@ -15,15 +15,12 @@ namespace onelv_parser.Controllers
     public class HomeController : Controller
     {
 
-        //public const int pageCount = 2;
+        
 
         public List<MobilePhone> Parse1Alv()
         {
             string url = "http://www.1a.lv/telefoni_plansetdatori/mobilie_telefoni/mobile_phones";
-           // var html1 = new HtmlDocument();
-           // var web = new WebClient();
-            
-           // html1.LoadHtml(web.DownloadString(url));
+           
             var web = new HtmlWeb
             {
                 AutoDetectEncoding = false,
@@ -176,8 +173,9 @@ namespace onelv_parser.Controllers
 
         
         // GET: /Home/
-        public ActionResult Index()
+        public ActionResult Index(string searchString="")
         {
+            ViewBag.searchString = searchString;
             return View();
         }
 
@@ -189,7 +187,7 @@ namespace onelv_parser.Controllers
             //Response.BufferOutput = true;
            // Response.Redirect("http://www.1a.lv");
 
-
+            ViewBag.searchString = searchString;
             var list = new List<MobilePhone>();
             list = Parse220lv();
             var list2 = Parse1Alv();
@@ -201,8 +199,9 @@ namespace onelv_parser.Controllers
                 list = list.Where(i => i.Name.ToLower().Contains(searchString.ToLower())).ToList();
             }
 
-           // ViewBag.brand = list;
 
+
+            ViewBag.count = list.Count.ToString();
 
             return View(list);
         }
