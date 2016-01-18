@@ -181,7 +181,7 @@ namespace onelv_parser.Controllers
 
         
         [HttpPost]
-        public ActionResult Search(string searchString)
+        public ActionResult Search(string searchString="")
 
         {
             //Response.BufferOutput = true;
@@ -189,13 +189,14 @@ namespace onelv_parser.Controllers
 
             ViewBag.searchString = searchString;
             var list = new List<MobilePhone>();
-            list = Parse220lv();
-            var list2 = Parse1Alv();
-
-            list.AddRange(list2);
-            list = list.OrderBy(i => i.Price).ToList();
-            if (!string.IsNullOrEmpty(searchString))
+            
+            if (searchString.Length > 2)
             {
+                list = Parse220lv();
+                var list2 = Parse1Alv();
+
+                list.AddRange(list2);
+                list = list.OrderBy(i => i.Price).ToList();
                 list = list.Where(i => i.Name.ToLower().Contains(searchString.ToLower())).ToList();
             }
 
