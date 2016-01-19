@@ -173,31 +173,33 @@ namespace onelv_parser.Controllers
 
         
         // GET: /Home/
-        public ActionResult Index(string searchString="")
+        public ActionResult Index(string searchString = "")
         {
-            ViewBag.searchString = searchString;
+
+            //SearchString search = new SearchString() {searchString = searchString };
             return View();
         }
 
         
         [HttpPost]
-        public ActionResult Search(string searchString="")
+        [ValidateAntiForgeryToken]
+        public ActionResult Search([Bind(Include = "searchString")]SearchString searchString)
 
         {
             //Response.BufferOutput = true;
            // Response.Redirect("http://www.1a.lv");
 
-            ViewBag.searchString = searchString;
+            ViewBag.searchString = searchString.searchString;
             var list = new List<MobilePhone>();
-            
-            if (searchString.Length > 2)
+
+            if (ModelState.IsValid)
             {
                 list = Parse220lv();
                 var list2 = Parse1Alv();
 
                 list.AddRange(list2);
                 list = list.OrderBy(i => i.Price).ToList();
-                list = list.Where(i => i.Name.ToLower().Contains(searchString.ToLower())).ToList();
+                list = list.Where(i => i.Name.ToLower().Contains(searchString.searchString.ToLower())).ToList();
             }
 
 

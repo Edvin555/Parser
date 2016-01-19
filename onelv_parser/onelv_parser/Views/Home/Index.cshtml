@@ -1,4 +1,5 @@
-﻿
+﻿@model onelv_parser.Models.SearchString
+
 @{
     Layout = null;
 }
@@ -11,97 +12,48 @@
     <title>Index</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <script src="~/Scripts/jquery-2.2.0.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/"></script>
+   
 </head>
 <body>
-    <div> 
-        <p></p>
-        @using (Html.BeginForm("Search", "Home", FormMethod.Post))
-        
-        
-        {
-            <div class="form-group">
-                <label class="control-label col-md-2"><strong>Search for mobile phones in www.1a.lv and www.220.lv.</strong></label>
-                <div class="col-md-10">
-                    <p>@Html.TextBox("searchString", (string)ViewBag.searchString)</p>
 
-                </div>
-            </div>
-            
-             <div class="form-group">
-                <label class="control-label col-md-10" id="msg" style="display:none"></label>
-               
-            </div>
+    
 
-            <div class="form-group">
-                <div class="col-md-10">
-                    <p><input type="submit" value="Search" class="btn btn-success" id="submit"  /></p>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label class="control-label col-md-2" id="msg2" style="display:none"></label>
-               
-            </div>
 
-        }
-    </div>
-    <br />
+    @using (Html.BeginForm("Search", "Home", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+
+
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            <label class="control-label col-md-2"><strong>Search for mobile phones in www.1a.lv and www.220.lv.</strong></label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.searchString)
+                @Html.ValidationMessageFor(model => model.searchString)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Search" class="btn btn-success" id="submit" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="control-label col-md-2" id="msg2" style="display:none"></label>
+
+        </div>
+
+    }
+
 
 </body>
 </html>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#submit").prop("disabled", false);
-
-        $("#searchString").change(function () {
-            // alert($("#searchString").val());
-            $("#msg").hide();
-            $("#submit").prop("disabled", false);
-            var regexp = /.*<(?=.+)/i;
-           
-            var result = regexp.exec($("#searchString").val());
-           
-                
-               if (result.length > 0) {
-                
-
-                $("#msg").text("Html  tags  are  not allowed.");
-                $("#msg").show();
-                $("#submit").prop("disabled", true);
-            }
-          
-        });
-
-
-        $("form").submit(function (e) {
-           // alert($("#searchString").val());
-            
-            if ($("#searchString").val() == "") {
-                e.preventDefault();
-
-                $("#msg").text("You should  enter  search  query.");
-                $("#msg").show();
-                
-            }
-            else {
-                $('form').unbind('submit').submit();
-            }
-        });
-       
-         
-    });
-    </script>
-
-           
-            
-
-            
-
-          
-
-        
 
 
 
