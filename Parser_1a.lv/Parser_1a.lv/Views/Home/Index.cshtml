@@ -10,14 +10,21 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+   
+
+
 </head>
 <body>
+   
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
+
     @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/bootstrap.css")
     @Scripts.Render("~/bundles/modernizr")
+   
+    
+  
 
    @using (Html.BeginForm("Search", "Home", FormMethod.Post))
      {
@@ -28,24 +35,34 @@
         @Html.ValidationSummary(true)
 
         
+        <div class="form-group">
             <label class="control-label col-md-2"><strong>Search for mobile phones in www.1a.lv and www.220.lv.</strong></label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.SearchString)
-                
-                @Html.ValidationMessageFor(model => model.SearchString)
-            
+                <p >
+                    @Html.EditorFor(model => model.SearchString, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.SearchString)
+
+               </p>
+
+               
+            </div>
         </div>
         <br />
-        
+       
+        <div class="form-group">
             <div class="col-md-10">
-                <input type="submit" value="Search" class="btn btn-success" id="submit" />
+                <p><input type="submit" value="Search" class="btn btn-success" id="submit" /></p>
             </div>
-        
+        </div>
        <br />
        
+       <div class="form-group">
+           <div class="col-md-10">
+              <p><label class="control-label col-md-2" id="msg2" style="display:none"></label></p> 
 
-         <label class="control-label col-md-2" id="msg2" style="display:none"></label>
-               
+           </div>
+
+        </div>       
       
 
 
