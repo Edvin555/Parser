@@ -18,16 +18,13 @@ namespace Parser_1a.lv.Controllers
 
         public ActionResult Index(string searchString = "")
         {
-            var now = DateTime.Now;
-            var lastUpdate = db.UpdateDates.FirstOrDefault().Date;
-           var  diff = ((TimeSpan)(now - lastUpdate)).TotalHours;
-           if (diff > 0) 
-           {
-               ViewBag.searchString = searchString;
-           }
+         
+          
+            ViewBag.searchString = searchString;
+           
+            return View();
 
             
-            return View();
         }
 
     
