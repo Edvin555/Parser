@@ -13,5 +13,8 @@ namespace Parser_1a.lv.Models
             : base("DefaultConnection")
         {
         }
+
+        public System.Data.Entity.DbSet<Parser_1a.lv.Models.MobilePhone> MobilePhones { get; set; }
+        public System.Data.Entity.DbSet<Parser_1a.lv.Models.UpdateDate> UpdateDates { get; set; }
     }
 }

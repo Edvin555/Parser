@@ -15,14 +15,15 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
-   
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap.css")
     @Scripts.Render("~/bundles/modernizr")
 
 @Html.Action("Index", new { searchString = (string)ViewBag.searchString })
 <br />
 <strong id="count" style="display:none">@((string)ViewBag.count)</strong>
 
+    <p></p>
 <table class="table" id="tb" style="display:none">
     <tr>
         <th>

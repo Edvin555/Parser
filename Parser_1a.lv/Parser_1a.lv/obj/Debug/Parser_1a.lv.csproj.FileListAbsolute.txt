@@ -55,6 +55,7 @@ C:\Users\User\Desktop\c#\Parser_1a.lv\Parser_1a.lv\bin\Microsoft.Owin.Security.T
 C:\Users\User\Desktop\c#\Parser_1a.lv\Parser_1a.lv\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\User\Desktop\c#\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.dll
 C:\Users\User\Desktop\c#\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.pdb
+C:\Users\User\Desktop\c#\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.csprojResolveAssemblyReference.cache
 C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\bin\Parser_1a.lv.dll.config
 C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\bin\Parser_1a.lv.dll
 C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\bin\Parser_1a.lv.pdb
@@ -112,4 +113,6 @@ C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\bin\Microsoft.Owin.Securi
 C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.dll
 C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.pdb
-C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.csprojResolveAssemblyReference.cache
+C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.Migrations.InitialCreate.resources
+C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.csproj.GenerateResource.Cache
+C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.Migrations.Phones.resources

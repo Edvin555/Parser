@@ -14,49 +14,91 @@ namespace Parser_1a.lv.Controllers
 {
     public class HomeController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public ActionResult Index(string searchString = "")
         {
-            ViewBag.searchString = searchString;
+            var now = DateTime.Now;
+            var lastUpdate = db.UpdateDates.FirstOrDefault().Date;
+           var  diff = ((TimeSpan)(now - lastUpdate)).TotalHours;
+           if (diff > 0) 
+           {
+               ViewBag.searchString = searchString;
+           }
+
+            
             return View();
         }
 
-        public ActionResult Index2(string searchString = "")
-        {
-            //SearchString search = new SearchString() {searchString = searchString };
-            return View();
-        }
+    
 
-
-      
+    
 
 
         [HttpPost]
         
         [ValidateAntiForgeryToken]
-        public ActionResult Search(FormCollection values)
+        public ActionResult Search(Search s)
         {
             
             //Response.BufferOutput = true;
             // Response.Redirect("http://www.1a.lv");
-
-            ViewBag.searchString = values["searchString"];
+            ViewBag.searchString = s.SearchString;
             var list = new List<MobilePhone>();
-
+           
             if (ModelState.IsValid)
             {
-                list = Parse220lv();
-                var list2 = Parse1Alv();
+                
+                var now = DateTime.Now ;
+                
+                double diff = 25;
+                if (db.UpdateDates.Count() > 0)
+                {
+                    var lastUpdate = db.UpdateDates.FirstOrDefault().Date;
+                    diff = ((TimeSpan)(now - lastUpdate)).TotalHours;
+                }
+                
+                if (diff > 24)
+                {
+                    var newUpdate = new UpdateDate() { Date = now };
+                    db.UpdateDates.Remove(db.UpdateDates.FirstOrDefault());
+                    db.SaveChanges();
+                  
 
-                list.AddRange(list2);
-                list = list.OrderBy(i => i.Price).ToList();
-                list = list.Where(i => i.Name.ToLower().Contains(values["searchString"].ToLower())).ToList();
+                    db.UpdateDates.Add(newUpdate);
+                    db.MobilePhones.RemoveRange(db.MobilePhones);
+                    db.SaveChanges();
+
+                    list = Parse220lv();
+                    var list2 = Parse1Alv();
+
+                    list.AddRange(list2);
+                    
+                    db.MobilePhones.AddRange(list);
+                    db.SaveChanges();
+
+                    list = list.OrderBy(i => i.Price).ToList();
+                    list = list.Where(i => i.Name.ToLower().Contains(s.SearchString.ToLower())).ToList();
+
+                    ViewBag.count = list.Count.ToString();
+
+                    return View(list);
+
+                }
+
+
+                else
+                {
+                    list = db.MobilePhones.Where(i => i.Name.ToLower().Contains(s.SearchString.ToLower())).OrderBy(i => i.Price).ToList();
+                    ViewBag.count = list.Count.ToString();
+
+                    return View(list);
+                }
+
+               
             }
 
-
-
-            ViewBag.count = list.Count.ToString();
-
-            return View(list);
+            return RedirectToAction("Index", s);
         }
         public List<MobilePhone> Parse1Alv()
         {
