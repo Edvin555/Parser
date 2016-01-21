@@ -54,7 +54,7 @@ namespace Parser_1a.lv.Controllers
                     var lastUpdate = db.UpdateDates.FirstOrDefault().Date;
                     diff = ((TimeSpan)(now - lastUpdate)).TotalHours;
                 }
-                ViewBag.diff = diff.ToString();
+               // ViewBag.diff = diff.ToString();
                 if (diff > 24)
                 {
                     var newUpdate = new UpdateDate() { Date = now };
