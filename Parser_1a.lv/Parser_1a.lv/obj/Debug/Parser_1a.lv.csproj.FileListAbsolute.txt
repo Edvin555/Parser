@@ -116,4 +116,3 @@ C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.pd
 C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.Migrations.InitialCreate.resources
 C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.csproj.GenerateResource.Cache
 C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.Migrations.Phones.resources
-C:\Users\User\Desktop\Parser\Parser_1a.lv\Parser_1a.lv\obj\Debug\Parser_1a.lv.csprojResolveAssemblyReference.cache

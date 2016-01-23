@@ -19,6 +19,7 @@
    
     @Scripts.Render("~/bundles/modernizr")
 
+    <strong id="error" style="display:none">@((string)ViewBag.error)</strong>
    @using (Html.BeginForm("Search", "Home", FormMethod.Post))
      {
         @Html.AntiForgeryToken()
@@ -57,3 +58,19 @@
     }
 </body>
 </html>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+
+        if ($("#error").text() != "") {
+
+
+            $('#submit').click();
+           
+        }
+       
+    });
+
+
+
+</script>

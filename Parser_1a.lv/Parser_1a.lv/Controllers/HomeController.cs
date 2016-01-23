@@ -16,12 +16,19 @@ namespace Parser_1a.lv.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult Index(string searchString = "")
+        public static CultureInfo lvCulture = new CultureInfo("lv-LV");
+        public  NumberFormatInfo dbNumberFormat = lvCulture.NumberFormat;
+
+        public List<MobilePhone> SearchPhonesInDatabase(string s)
+        {
+            return  db.MobilePhones.Where(i => i.Name.ToLower().Contains(s.ToLower())).OrderBy(i => i.Price).ToList();
+        }
+        public ActionResult Index(string searchString = "", string error = "")
         {
          
           
             ViewBag.searchString = searchString;
-           
+            ViewBag.error = error;
             return View();
 
             
@@ -74,8 +81,7 @@ namespace Parser_1a.lv.Controllers
                     db.MobilePhones.AddRange(list);
                     db.SaveChanges();
 
-                    list = list.OrderBy(i => i.Price).ToList();
-                    list = list.Where(i => i.Name.ToLower().Contains(s.SearchString.ToLower())).ToList();
+                    list = SearchPhonesInDatabase(s.SearchString);
 
                     ViewBag.count = list.Count.ToString();
 
@@ -86,7 +92,7 @@ namespace Parser_1a.lv.Controllers
 
                 else
                 {
-                    list = db.MobilePhones.Where(i => i.Name.ToLower().Contains(s.SearchString.ToLower())).OrderBy(i => i.Price).ToList();
+                    list = SearchPhonesInDatabase(s.SearchString);
                     ViewBag.count = list.Count.ToString();
 
                     return View(list);
@@ -95,7 +101,7 @@ namespace Parser_1a.lv.Controllers
                
             }
 
-            return RedirectToAction("Index", s);
+            return RedirectToAction("Index", new { searchString = s.SearchString, error = "true" });
         }
         public List<MobilePhone> Parse1Alv()
         {
@@ -143,8 +149,6 @@ namespace Parser_1a.lv.Controllers
 
                 var parents = root.Descendants("div").Where(n => n.GetAttributeValue("class", "").Equals("area")).ToArray();
 
-
-
                 foreach (var parent in parents)
                 {
                     var phone = new MobilePhone();
@@ -155,9 +159,6 @@ namespace Parser_1a.lv.Controllers
 
                     href = "http://www.1a.lv" + href;
 
-                    CultureInfo lvCulture = new CultureInfo("lv-LV");
-                    NumberFormatInfo dbNumberFormat = lvCulture.NumberFormat;
-
                     phone.Price = decimal.Parse(price.InnerText.ToString().Replace(".", ","), dbNumberFormat);
                     phone.Name = HtmlEntity.DeEntitize(brand.InnerText.ToString());
                     phone.Url = href.ToString();
@@ -166,11 +167,7 @@ namespace Parser_1a.lv.Controllers
 
                 }
 
-
-
-
-
-            }
+           }
             return list;
 
         }
@@ -187,7 +184,6 @@ namespace Parser_1a.lv.Controllers
                 var url = "http://220.lv/lv/mobilie_telefoni/mobilie_telefoni?w=72";
                 url = url + "&page=" + i.ToString();
 
-
                 var web = new HtmlWeb
                 {
                     AutoDetectEncoding = false,
@@ -203,18 +199,10 @@ namespace Parser_1a.lv.Controllers
                 // Instantiate the regular expression object.
                 Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
 
-                // Match the regular expression pattern against a text string.
-
-
+               
                 foreach (var parent in parents)
                 {
-
-
-
                     var price = parent.Descendants("span").Where(n => n.GetAttributeValue("class", "").Equals("pricesContainer")).First().Descendants("span").First();
-
-
-
                     Match m = r.Match(price.InnerText.ToString());
                     if (m.Length != 0)
                     {
@@ -234,23 +222,12 @@ namespace Parser_1a.lv.Controllers
 
                     }
 
+               }
 
-
-
-
-                }
-
-
-
-
-
-            }
+        }
             return list;
 
         }
-
-
-
      
     }
 }
