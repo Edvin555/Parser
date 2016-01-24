@@ -47,11 +47,14 @@ namespace Parser_1a.lv.Controllers
             
             //Response.BufferOutput = true;
             // Response.Redirect("http://www.1a.lv");
+            s.SearchString = HtmlEntity.DeEntitize(s.SearchString);
             ViewBag.searchString = s.SearchString;
             var list = new List<MobilePhone>();
            
             if (ModelState.IsValid)
             {
+                string HTML_TAG_PATTERN = "<.*?>";
+                s.SearchString = Regex.Replace (s.SearchString, HTML_TAG_PATTERN, string.Empty);
                 
                 var now = DateTime.Now ;
                 
@@ -103,6 +106,8 @@ namespace Parser_1a.lv.Controllers
 
             return RedirectToAction("Index", new { searchString = s.SearchString, error = "true" });
         }
+
+
         public List<MobilePhone> Parse1Alv()
         {
             string url = "http://www.1a.lv/telefoni_plansetdatori/mobilie_telefoni/mobile_phones";
